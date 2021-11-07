@@ -29,6 +29,7 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate {
     @IBOutlet weak var error: UILabel!
     
     
+    private let database = Database.database().reference()
    // @IBOutlet weak var
    // var SelectedAssets = [PHAsset]{}
    // var PhotoArray = [UIImage]
@@ -82,18 +83,15 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate {
                 let pprice = ppricTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
                 let plocation = plocationTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
                 
-                // Create the user
-               // Auth.auth().createproducts(withpname: pname, pdetails: pdetails, pprice: pprice, plocation:plocation) { (result, err) in
-                  database.child("Product_\(Int.random(in: 0..<100))").setvalue(object)  
+                let product : [ String : AnyObject] = ["pname" : pname,"pdetails" : pdetails,"pprice" : pprice,"plocation" : plocation]
+                  database.child("Product_\(Int.random(in: 0..<100))").setvalue(product)  in
                     // Check for errors
                     if err != nil {
                         
-                        // There was an error creating the user
                         self.showError("Error creating product details")
                     }
                     else {
                         
-                        // User was created successfully, now store the first name and last name
                         let db = Firestore.firestore()
                         
                         db.collection("prdocts").addDocument(data: ["pname":pname, "pdetails":pdetails, "pprice":pprice,"plocation":plocation, "uid": result!.products.uid ]) { (error) in
