@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseDatabase
 import FirebaseStorage
 import XCTest
 import Kingfisher
@@ -82,8 +83,8 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate {
                 let plocation = plocationTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
                 
                 // Create the user
-                Auth.auth().createproducts(withpname: pname, pdetails: pdetails, pprice: pprice, plocation:plocation) { (result, err) in
-                    
+               // Auth.auth().createproducts(withpname: pname, pdetails: pdetails, pprice: pprice, plocation:plocation) { (result, err) in
+                  database.child("Product_\(Int.random(in: 0..<100))").setvalue(object)  
                     // Check for errors
                     if err != nil {
                         
@@ -102,9 +103,7 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate {
                                 self.showError("Error saving user data")
                             }
                         }
-                        
-                        // Transition to the home screen
-                     //   self.transitionToHome()
+                       
                     }
                     
                 }
